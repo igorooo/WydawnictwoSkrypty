@@ -4,13 +4,17 @@ import string
 
 DB_NAME = 'Wydawnictwo'
 
-class Przypisanie(object):
-    TABLE = 'Przypisanie'
+class Weryfikanci(object):
+    TABLE = 'Weryfikanci'
 
 
     def __init__(self, db, cursor):
         self.db = db
         self.cursor = cursor
+
+    def addQuotes(self, val):
+        return "'" + str(val) + "'"
+
 
     def getMaxIntVal(self, table, column):
         self.cursor.execute("SELECT MAX(" + column + ") FROM " + DB_NAME + '.' + table)
@@ -34,37 +38,39 @@ class Przypisanie(object):
             kontrybutorId = (int)(i[0])
         return kontrybutorId
 
-    def getMaxWersja(self, id):
-        wersja = 1
-        self.cursor.execute(
-            "SELECT MAX(Wersja) FROM " + DB_NAME + '.Artykul WHERE idArtykul=' + str(id))
+    def getGrupaWeryfikacjiArr(self):
+        self.cursor.execute("SELECT idGrupaWeryfikacji FROM " + DB_NAME + ".GrupaWeryfikacji")
         result = self.cursor.fetchall()
-        for i in result:
-            if (i[0] == None):
-                return 1
-            wersja = (int)(i[0])
+        return result
 
-        return wersja
+    def getUzytkownikArr(self):
+        self.cursor.execute("SELECT Uzytkownik_idUzytkownik FROM " + DB_NAME + ".Uprawnienia WHERE Rola_idRola=3")
+        result = self.cursor.fetchall()
+        return result
 
 
-    def genSqlInsertPrzypisanie(self, article):
-        sql = "INSERT INTO `Wydawnictwo`.`Przypisanie` (`Artykul_idArtykul`, `Artykul_Wersja`, `Kategoria_idKategoria`) VALUES (%s, %s, %s);"
+    def genSqlWeryfikanci(self, grupaW):
+        sql = "INSERT INTO `Wydawnictwo`.`Weryfikanci` (`Uzytkownik_idUzytkownik`, `GrupaWeryfikacji_idGrupaWeryfikacji`) VALUES (%s, %s);"
         sqlArr = []
-        maxKat = self.getMaxIntVal("Kategoria", "idKategoria")
+        id = grupaW[0]
+        weryfi = self.getUzytkownikArr()
+        maxU = len(weryfi)
+        veryfiArr = []
+        maxU = random.randint(1, maxU)
+        for i in range(maxU):
+            u = random.choice(weryfi)
+            veryfiArr.append(u[0])
+            weryfi.remove(u)
 
-        kat = random.randint(1, maxKat)
-        maxWersja = self.getMaxWersja(article)
-
-        for i in range(1, maxWersja):
-            val = [article, i, kat]
-            sqlArr.append(sql % tuple(val))
-
+        for user in veryfiArr:
+            val = (user, id)
+            sqlArr.append(sql % val)
         return sqlArr
 
-    def insertPrzypisanie(self):
-        max = self.getMaxIntVal("Artykul", "idArtykul")
-        for i in range(max):
-            sqlArr = self.genSqlInsertPrzypisanie(i)
+    def insertWeryfikanci(self):
+        grupy = self.getGrupaWeryfikacjiArr()
+        for grupa in grupy:
+            sqlArr = self.genSqlWeryfikanci(grupa)
             for sql in sqlArr:
                 self.cursor.execute(sql)
                 self.db.commit()

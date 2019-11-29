@@ -123,9 +123,9 @@ class Artykul(object):
                availability, self.addQuotes(keywords), k]
 
         for i in range(1, no_of_versions+1):
-            stage = ''
+            stage = 'Archiwizacja'
             if( i < version):
-                stage = 'Archiwum'
+                stage = 'Archiwizacja'
             else:
                 stage = random.choice(self.STAGE)
 
