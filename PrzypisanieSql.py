@@ -4,9 +4,8 @@ import string
 
 DB_NAME = 'Wydawnictwo'
 
-class Recenzja(object):
-    TABLE = 'Recenzja'
-    FILE = 'data/SampleReview.pdf'
+class Przypisanie(object):
+    TABLE = 'Przypisanie'
 
 
     def __init__(self, db, cursor):
@@ -14,15 +13,6 @@ class Recenzja(object):
         self.cursor = cursor
         self.review = self.convertToBinaryData()
 
-
-    def addQuotes(self, val):
-        return "'" + str(val) + "'"
-
-
-    def convertToBinaryData(self):
-        with open(self.FILE, 'rb') as file:
-            binaryData = file.read()
-        return binaryData
 
     def getMaxIntVal(self, table, column):
         self.cursor.execute("SELECT MAX(" + column + ") FROM " + DB_NAME + '.' + table)
@@ -70,17 +60,17 @@ class Recenzja(object):
         return (artykulId, wersja)
 
 
-    def genSqlInsertRecenzja(self):
+    def genSqlInsertPrzypisanie(self):
+        sql = "INSERT INTO `Wydawnictwo`.`Przypisanie` (`Artykul_idArtykul`, `Artykul_Wersja`, `Kategoria_idKategoria`) VALUES (%s, %s, %s);"
         sql = "INSERT INTO `Wydawnictwo`.`Recenzja` (Recenzja, Artykul_idArtykul, Artykul_Wersja, Uzytkownik_idUzytkownik) VALUES (%s, %s, %s, %s);"
 
-        pdf = self.review
-        rev = self.getRandomKontrybutor()
+        kat = self.getRandomKat()
         article = self.getRandomArtykul()
 
-        val = [pdf, article[0], article[1], rev]
+        val = [article[0], article[1], rev]
         return (sql, tuple(val))
 
-    def insertRecenzja(self, number):
+    def insertPrzypisanie(self, number):
         for i in range(number):
             sql = self.genSqlInsertRecenzja()
             self.cursor.execute(sql[0], sql[1])

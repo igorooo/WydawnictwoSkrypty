@@ -1,7 +1,7 @@
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class Kategoria(object):
     TABLE = 'Kategoria'
@@ -32,7 +32,7 @@ class Kategoria(object):
     def genSqlInsertKategoria(self, index):
         id = self.getMaxIntVal(self.TABLE, 'idKategoria') + 1
         val = []
-        sql = "INSERT INTO `seba`.`Kategoria` (`idKategoria`, `Nazwa`, `Opis`) VALUES (%s, %s, %s);"
+        sql = "INSERT INTO `Wydawnictwo`.`Kategoria` (`idKategoria`, `Nazwa`, `Opis`) VALUES (%s, %s, %s);"
         val.append(id)
         val.append(self.addQuotes(self.CATEGORY[index]))
         val.append(self.addQuotes(self.randomString(120)))

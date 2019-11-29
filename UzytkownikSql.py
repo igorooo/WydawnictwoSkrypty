@@ -2,7 +2,7 @@ import names
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class Uzytkownik(object):
     EMAIL_PROVIDERS = ['@gmail.com', '@yahoo.com', '@outlook.com', '@op.pl', '@hotmail.com', '@o2.pl'];
@@ -33,7 +33,7 @@ class Uzytkownik(object):
     def genSqlInsertUzytkownik(self):
         id = self.getMaxIntVal(self.TABLE, 'idUzytkownik') + 1
         val = []
-        sql = "INSERT INTO `seba`.`Uzytkownik` (`idUzytkownik`, `Nazwa`, `Login`, `Haslo`, `Email`) VALUES (%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO `Wydawnictwo`.`Uzytkownik` (`idUzytkownik`, `Nazwa`, `Login`, `Haslo`, `Email`) VALUES (%s, %s, %s, %s, %s)"
         name = names.get_first_name()
         surname = names.get_last_name()
         val.append(id)

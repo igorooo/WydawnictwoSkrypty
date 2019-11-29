@@ -1,7 +1,7 @@
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class Rola(object):
     TABLE = 'Rola'
@@ -30,9 +30,9 @@ class Rola(object):
         return maxIntVal
 
     def genSqlInsertRola(self, index):
-        id = self.getMaxIntVal(self.TABLE, 'idRola') + 1
+        id = self.getMaxIntVal('Rola', 'idRola') + 1
         val = []
-        sql = "INSERT INTO `seba`.`Rola` (`idRola`, `Nazwa`, `Opis`) VALUES (%s, %s, %s);"
+        sql = "INSERT INTO `Wydawnictwo`.`Rola` (`idRola`, `Nazwa`, `Opis`) VALUES (%s, %s, %s);"
         val.append(id)
         val.append(self.addQuotes(self.ROLES[index]))
         val.append(self.addQuotes(random.choice(self.DISCRIPTIONS)))

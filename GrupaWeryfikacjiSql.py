@@ -1,7 +1,7 @@
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class GrupaWeryfikacji(object):
     TABLE = 'GrupaWeryfikacji'
@@ -31,7 +31,7 @@ class GrupaWeryfikacji(object):
     def genSqlInsertGrupaWeryfikacji(self):
         id = self.getMaxIntVal(self.TABLE, 'idGrupaWeryfikacji') + 1
         val = []
-        sql = "INSERT INTO `seba`.`GrupaWeryfikacji` (`idGrupaWeryfikacji`, `Nazwa`) VALUES (%s, %s);"
+        sql = "INSERT INTO `Wydawnictwo`.`GrupaWeryfikacji` (`idGrupaWeryfikacji`, `Nazwa`) VALUES (%s, %s);"
         val.append(id)
         val.append(self.addQuotes("Grupa weryfikacji #" + str(id)))
         sql = sql % tuple(val)

@@ -2,7 +2,7 @@ import names
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class Artykul(object):
     TABLE = 'Artykul'
@@ -106,9 +106,10 @@ class Artykul(object):
         id = self.getMaxIntVal(self.TABLE, 'idArtykul') + 1
         no_of_versions = random.randint(1, 5)
         sqlArr = []
-        sql = "INSERT INTO `seba`.`Artykul` (`idArtykul`, `Wersja`, `Nazwa`, `Data dodania`, `Etap`, `Treść`, " \
-              "`Data publikacji`, `Dostepnosc`, `SlowaKluczowe`, `Kontrybutor`) VALUES (%s, %s, %s, %s, %s, %s, %s," \
+        sql = "INSERT INTO `Wydawnictwo`.`Artykul` (`idArtykul`, `Wersja`, `Nazwa`, `Data dodania`, `Etap`, `Treść`," \
+              " `Data publikacji`, `Dostepnosc`, `SlowaKluczowe`, `Kontrybutor`) VALUES (%s, %s, %s, %s, %s, %s, %s," \
               " %s, %s, %s);"
+
         version = 1
         name = 'Article about ' + names.get_last_name() + ' effect'
         dateD = self.randomDateD()
@@ -121,7 +122,7 @@ class Artykul(object):
         val = [id, 1, self.addQuotes(name), '', '', pdf, '',
                availability, self.addQuotes(keywords), k]
 
-        for i in range(1, no_of_versions):
+        for i in range(1, no_of_versions+1):
             stage = ''
             if( i < version):
                 stage = 'Archiwum'

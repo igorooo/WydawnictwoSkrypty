@@ -2,7 +2,7 @@ import names
 import random
 import string
 
-DB_NAME = 'seba'
+DB_NAME = 'Wydawnictwo'
 
 class Autor(object):
     TABLE = 'Autor'
@@ -34,7 +34,7 @@ class Autor(object):
     def genSqlInsertAutor(self):
         id = self.getMaxIntVal(self.TABLE, 'idAutor') + 1
         val = []
-        sql = "INSERT INTO `seba`.`Autor` (`idAutor`, `Nazwisko`, `Imie`, `Stopień`, `Biografia`) VALUES (%s, %s, %s, %s, %s)";
+        sql = "INSERT INTO `Wydawnictwo`.`Autor` (`idAutor`, `Nazwisko`, `Imie`, `Stopień`, `Biografia`) VALUES (%s, %s, %s, %s, %s)";
         name = names.get_first_name()
         surname = names.get_last_name()
         val.append(id)
