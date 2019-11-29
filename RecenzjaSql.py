@@ -88,12 +88,12 @@ class Artykul(object):
                 keywords += ', '
         return keywords
 
-    def getRandomKontrybutor(self):
-        n = self.getMaxIntVal('Uzytkownik', 'idUzytkownik')
-        kontrybutorId = n
-        if kontrybutorId == 0:
-            raise Exception('There is 0 elements in table Uzytkownik!')
-        self.cursor.execute("SELECT idUzytkownik FROM " + DB_NAME + '.Uzytkownik WHERE idUzytkownik='+ str(random.randint(1, n)))
+    def getRandomArtykul(self):
+        n = self.getMaxIntVal('Artykul', 'idArtykul')
+        artykulId = n
+        if artykulId == 0:
+            raise Exception('There is 0 elements in table Artykul!')
+        self.cursor.execute("SELECT idArtykul FROM " + DB_NAME + '.Uzytkownik WHERE idUzytkownik='+ str(random.randint(1, n)))
         result = self.cursor.fetchall()
         for i in result:
             if (i[0] == None):
@@ -107,8 +107,9 @@ class Artykul(object):
         no_of_versions = random.randint(1, 5)
         sqlArr = []
         sql = "INSERT INTO `seba`.`Artykul` (`idArtykul`, `Wersja`, `Nazwa`, `Data dodania`, `Etap`, `Treść`, " \
-              "`Data publikacji`, `Dostepnosc`, `SlowaKluczowe`, `Kontrybutor`) VALUES (%s, %s, %s, %s, %s, %s, %s," \
-              " %s, %s, %s);"
+              "`Data publikacji`, `Dostepnosc`, `SlowaKluczowe`, `Kontrybutor`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        sql = "INSERT INTO seba.`Recenzja` (Recenzja, Artykul_idArtykul, Artykul_Wersja, Uzytkownik_idUzytkownik) VALUES (%s, %s, %s, %s);"
+
         version = 1
         name = 'Article about ' + names.get_last_name() + ' effect'
         dateD = self.randomDateD()
@@ -119,7 +120,7 @@ class Artykul(object):
         k = self.getRandomKontrybutor()
 
         val = [id, 1, self.addQuotes(name), '', '', pdf, '',
-               availability, self.addQuotes(keywords), k]
+               self.addQuotes(availability), self.addQuotes(keywords), k]
 
         for i in range(1, no_of_versions):
             stage = ''
@@ -137,21 +138,15 @@ class Artykul(object):
             val[6] = self.getDateFromTouple(dateP)
             sqlArr.append(sql % tuple(val))
 
-            val1 = val
-            val[5] = 'pdf file'
 
 
-
-            print(sql % tuple(val1))
-
-            #self.cursor.execute(sql, val)
-            #self.db.commit()
-
-        return sqlArr
+        return sql
 
     def insertArtykul(self, number):
         for i in range(number):
-            sqlArr = self.genSqlInsertArtykul()
+            sql = self.genSqlInsertArtykul()
+            self.cursor.execute(sql)
+            self.db.commit()
 
 
     def deleteAllValues(self):
@@ -160,6 +155,6 @@ class Artykul(object):
 
 
 
-#a = Artykul(1,2)
+"""a = Artykul(1,2)
 
-#a.insertArtykul(1)
+print(a.getRandomKontrybutor())"""
