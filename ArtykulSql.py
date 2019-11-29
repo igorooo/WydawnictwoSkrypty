@@ -140,12 +140,8 @@ class Artykul(object):
             val1 = val
             val[5] = 'pdf file'
 
-
-
-            print(sql % tuple(val1))
-
-            #self.cursor.execute(sql, val)
-            #self.db.commit()
+            self.cursor.execute(sql, val)
+            self.db.commit()
 
         return sqlArr
 
