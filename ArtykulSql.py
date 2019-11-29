@@ -7,7 +7,7 @@ DB_NAME = 'seba'
 class Artykul(object):
     TABLE = 'Artykul'
     STAGE = ['Recenzja', 'Weryfikacja', 'Redakcja', 'Publikacja']
-    AVAILABILITY = ['Artykuł płatny', 'Artykuł darmowy']
+    AVAILABILITY = ['Platny', 'Darmowy']
     KEY_WORDS = ['science', 'math', 'quantum engineering', 'machine learning', 'artificial intelligence', 'biology',
                  'law', 'american law', 'economy', 'poland', 'equations', 'c++', 'assembler', 'pils', 'testing',
                  'space', 'black holes', 'music', 'art']
